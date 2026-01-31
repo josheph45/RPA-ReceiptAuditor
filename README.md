@@ -1,5 +1,7 @@
 # RPA-ReceiptAuditor
 
+[Demo](https://youtu.be/KgurempZnqM)
+
 A modular UiPath automation designed to replace manual data entry in expense auditing. This solution digitizes physical receipts through OCR, validates contents against business rules, and generates financial reports.
 
 ## Features
