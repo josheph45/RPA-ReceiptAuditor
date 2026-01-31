@@ -1,0 +1,328 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Extract_Receipt_Data" this:Extract_Receipt_Data.in_ReceiptPath="C:\Users\kappa\OneDrive\Desktop\rpa\0final\expense_receipts" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/ocr" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Drawing;assembly=System.Drawing.Common" xmlns:sd1="clr-namespace:System.Drawing;assembly=System.Drawing.Primitives" xmlns:str="clr-namespace:System.Text.RegularExpressions;assembly=System.Text.RegularExpressions" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="out_RawText" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Total" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_Date" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Vendor" Type="OutArgument(x:String)" />
+    <x:Property Name="in_ReceiptPath" Type="InArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>Extract_Receipt_Data_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>UiPath.Vision.OCR</x:String>
+      <x:String>UiPath.OCR.Contracts</x:String>
+      <x:String>UiPath.Platform.SyncObjects</x:String>
+      <x:String>UiPath.OCR.Activities</x:String>
+      <x:String>UiPath.OCR.Contracts.Activities</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>UiPath.Core.Activities.OCR.Engines</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Numerics</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>UiPath.UIAutomationNext.Models</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>System.ComponentModel</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>UiPath.Vision.Core</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Core</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Contracts</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>NPOI.Core</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+      <AssemblyReference>System.Linq.Async.Queryable</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
+      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Testing.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.CodeDom</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Forms</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Extract_Receipt_Data" sap:VirtualizedContainerService.HintSize="883.6,3002.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Sequence sap:VirtualizedContainerService.HintSize="518.4,2979.2" sap2010:WorkflowViewState.IdRef="Sequence_2">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="x:String" Name="str_RawText" />
+        <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="ienum_DateMatches" />
+        <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="ienum_TotalMatches" />
+      </Sequence.Variables>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:StartProcess WorkingDirectory="{x:Null}" Arguments="[in_ReceiptPath]" DisplayName="Start Process" FileName="mspaint.exe" sap:VirtualizedContainerService.HintSize="484.8,120" sap2010:WorkflowViewState.IdRef="StartProcess_2" />
+      <uix:NApplicationCard sap2010:Annotation.AnnotationText="Opens the image in mspaint app" AttachMode="ByInstance" CloseMode="[UiPath.UIAutomationNext.Enums.NAppCloseMode.Always]" DisplayName="Receipt image" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="484.8,936.8" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" ScopeGuid="64f536b9-c29d-41f6-8ee7-9c0c549ea5e7" Version="V2">
+        <uix:NApplicationCard.Body>
+          <ActivityAction x:TypeArguments="x:Object">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="449.6,651.2" sap2010:WorkflowViewState.IdRef="Sequence_10">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:GetOCRText Text="{x:Null}" WordsInfo="{x:Null}" sap2010:Annotation.AnnotationText="Converts image pixels into a text string." DisplayName="Get OCR Text 'mspaint.exe'" sap:VirtualizedContainerService.HintSize="416,239.2" sap2010:WorkflowViewState.IdRef="GetOCRText_7">
+                <ui:GetOCRText.OCREngine>
+                  <ActivityFunc x:TypeArguments="sd:Image, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))">
+                    <ActivityFunc.Argument>
+                      <DelegateInArgument x:TypeArguments="sd:Image" Name="Image" />
+                    </ActivityFunc.Argument>
+                    <p:UiPathScreenOCR ApiKey="{x:Null}" Endpoint="{x:Null}" Output="{x:Null}" PredictionId="{x:Null}" UseAccents="{x:Null}" UseLocalServer="{x:Null}" ComputeSkewAngle="False" DisplayName="UiPath Screen OCR" ExtractWords="False" sap:VirtualizedContainerService.HintSize="300,24.8" sap2010:WorkflowViewState.IdRef="UiPathScreenOCR_1" Image="[Image.FromFile(in_ReceiptPath)]" Language="auto" NoopExecution="False" Profile="Screen" Scale="1" Text="[str_RawText]" Timeout="100000" UseSeparateOcrProcess="True" />
+                  </ActivityFunc>
+                </ui:GetOCRText.OCREngine>
+                <ui:GetOCRText.Target>
+                  <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="67d5e2b8-ddca-47a4-9a6f-6b18e26a3b45" InformativeScreenshot="3036454f6a8bacf23501cced487fb02f" Selector="&lt;wnd cls='Microsoft.UI.Content.DesktopChildSiteBridge' /&gt;">
+                    <ui:Target.TimeoutMS>
+                      <InArgument x:TypeArguments="x:Int32" />
+                    </ui:Target.TimeoutMS>
+                    <ui:Target.WaitForReady>
+                      <InArgument x:TypeArguments="ui:WaitForReady" />
+                    </ui:Target.WaitForReady>
+                  </ui:Target>
+                </ui:GetOCRText.Target>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:GetOCRText>
+              <Assign sap:VirtualizedContainerService.HintSize="416,178.4" sap2010:WorkflowViewState.IdRef="Assign_5">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[out_RawText]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[str_RawText]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,169.6" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;RAW OCR OUTPUT: &quot; + vbCrLf + str_RawText]" />
+            </Sequence>
+          </ActivityAction>
+        </uix:NApplicationCard.Body>
+        <uix:NApplicationCard.OCREngine>
+          <ActivityFunc x:TypeArguments="sd:Image, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))">
+            <ActivityFunc.Argument>
+              <DelegateInArgument x:TypeArguments="sd:Image" Name="Image" />
+            </ActivityFunc.Argument>
+          </ActivityFunc>
+        </uix:NApplicationCard.OCREngine>
+        <uix:NApplicationCard.TargetApp>
+          <uix:TargetApp Area="589, 159, 880, 625" ContentHash="McC1s77xlUOd0kEU4dgJbw" FilePath="Microsoft.Paint_8wekyb3d8bbwe!App" IconBase64="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" InformativeScreenshot="d4c2e57bc132abeba0dc5d5560612586.png" Reference="91ux7uB1TkydA_ugz-ggFA/5pxBLx3ht0SgXHG96cNtHg" Selector="&lt;wnd app='mspaint.exe' appid='Microsoft.Paint_8wekyb3d8bbwe!App' title='*.png - Paint' /&gt;" Version="V2">
+            <uix:TargetApp.WorkingDirectory>
+              <InArgument x:TypeArguments="x:String" />
+            </uix:TargetApp.WorkingDirectory>
+          </uix:TargetApp>
+        </uix:NApplicationCard.TargetApp>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </uix:NApplicationCard>
+      <Assign sap2010:Annotation.AnnotationText="Captures first line (text before 'Date')." sap:VirtualizedContainerService.HintSize="484.8,205.6" sap2010:WorkflowViewState.IdRef="Assign_1">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[out_Vendor]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Split(str_RawText, "Date", System.Text.RegularExpressions.RegexOptions.IgnoreCase)(0).Trim]</InArgument>
+        </Assign.Value>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </Assign>
+      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="484.8,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_2" Message="[out_Vendor]" />
+      <ui:Matches FirstMatch="{x:Null}" sap2010:Annotation.AnnotationText="Finds date patterns using Regex." DisplayName="Find Matching Patterns" sap:VirtualizedContainerService.HintSize="451.2,123.2" sap2010:WorkflowViewState.IdRef="Matches_1" Input="[str_RawText]" IsBuilderTabModified="False" Pattern="\d{4}-\d{2}-\d{2}" RegexOption="IgnoreCase, Compiled" Result="[ienum_DateMatches]">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </ui:Matches>
+      <If sap2010:Annotation.AnnotationText="Saves the date or &quot;Unknown&quot; if missing." Condition="[ienum_DateMatches.Count &gt; 0]" sap:VirtualizedContainerService.HintSize="451.2,636.8" sap2010:WorkflowViewState.IdRef="If_1">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <If.Then>
+          <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="449.6,233.6" sap2010:WorkflowViewState.IdRef="Sequence_3">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign sap:VirtualizedContainerService.HintSize="416,169.6" sap2010:WorkflowViewState.IdRef="Assign_2">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_Date]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[ienum_DateMatches(0).Value]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </Sequence>
+        </If.Then>
+        <If.Else>
+          <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="449.6,233.6" sap2010:WorkflowViewState.IdRef="Sequence_4">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign sap:VirtualizedContainerService.HintSize="416,169.6" sap2010:WorkflowViewState.IdRef="Assign_3">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_Date]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">["Unknown Date"]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </Sequence>
+        </If.Else>
+      </If>
+      <ui:Matches FirstMatch="{x:Null}" sap2010:Annotation.AnnotationText="Locates the number after the &quot;Total&quot; keyword." DisplayName="Find Matching Patterns" sap:VirtualizedContainerService.HintSize="451.2,123.2" sap2010:WorkflowViewState.IdRef="Matches_2" Input="[str_RawText]" IsBuilderTabModified="False" Pattern="(?&lt;=TOTAL:)\s?\$?(\d+\.\d{2})" RegexOption="IgnoreCase, Compiled" Result="[ienum_TotalMatches]">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </ui:Matches>
+      <If sap2010:Annotation.AnnotationText="Saves the amount or throws error if missing." Condition="[ienum_TotalMatches.Count &gt; 0]" sap:VirtualizedContainerService.HintSize="451.2,576" sap2010:WorkflowViewState.IdRef="If_2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <If.Then>
+          <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="449.6,233.6" sap2010:WorkflowViewState.IdRef="Sequence_5">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign sap:VirtualizedContainerService.HintSize="416,169.6" sap2010:WorkflowViewState.IdRef="Assign_4">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:Double">[out_Total]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:Double">[Convert.ToDouble(ienum_TotalMatches(0).Groups(1).Value)]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </Sequence>
+        </If.Then>
+        <If.Else>
+          <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="449.6,181.6" sap2010:WorkflowViewState.IdRef="Sequence_6">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Throw Exception="[New BusinessRuleException(&quot;Total Amount not found.&quot;)]" sap:VirtualizedContainerService.HintSize="416,117.6" sap2010:WorkflowViewState.IdRef="Throw_2" />
+          </Sequence>
+        </If.Else>
+      </If>
+    </Sequence>
+  </Sequence>
+</Activity>
